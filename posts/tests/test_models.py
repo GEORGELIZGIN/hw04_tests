@@ -14,8 +14,7 @@ class PostModelTest(TestCase):
         group = Group.objects.create(
             title='Группа Амалии',
             slug='Amalia',
-            description='Блог Амалии'
-            )
+            description='Блог Амалии')
         cls.post = Post.objects.create(
             text='Как же хочется капучино с круассаном',
             author=user,
@@ -32,8 +31,7 @@ class PostModelTest(TestCase):
             with self.subTest(value=value):
                 self.assertEqual(
                     post._meta.get_field(value).verbose_name,
-                    expected
-                    )
+                    expected)
 
     def test_help_text(self):
         post = PostModelTest.post
@@ -44,8 +42,7 @@ class PostModelTest(TestCase):
         for value, expected in field_help_text.items():
             with self.subTest(value=value):
                 self.assertEqual(
-                    post._meta.get_field(value).help_text, expected
-                    )
+                    post._meta.get_field(value).help_text, expected)
 
     def test_str_method(self):
         post = PostModelTest.post
@@ -60,8 +57,7 @@ class GroupModelTest(TestCase):
         cls.group = Group.objects.create(
             title='Группа Амалии',
             slug='Amalia',
-            description='Блог Амалии'
-            )
+            description='Блог Амалии')
 
     def test_str_method(self):
         group = GroupModelTest.group

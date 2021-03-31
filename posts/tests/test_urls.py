@@ -70,8 +70,8 @@ class PostURLTests(TestCase):
         templates_urls_names = {
             '/': 'index.html',
             '/group/group/': 'group.html',
-             '/new/': 'posts/new_post.html',
-             '/Amalia/1/edit/': 'post_new.html',
+            '/new/': 'posts/new_post.html',
+            '/Amalia/1/edit/': 'post_new.html',
         }
         for reverse_name, template in templates_urls_names.items():
             with self.subTest():
