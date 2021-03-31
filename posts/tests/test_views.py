@@ -44,16 +44,13 @@ class PostsViewsTests(TestCase):
             'posts/new_post.html': reverse('posts:new_post'),
             'profile.html': reverse(
                 'posts:profile',
-                kwargs={'username': 'Amalia'}
-                ),
+                kwargs={'username': 'Amalia'}),
             'post.html': reverse(
                 'posts:post',
-                kwargs={'username': 'Amalia', 'post_id': '1'}
-                ),
+                kwargs={'username': 'Amalia', 'post_id': '1'}),
             'post_new.html': reverse(
                 'posts:post_edit',
-                kwargs={'username': 'Amalia', 'post_id': '1'}
-                ),
+                kwargs={'username': 'Amalia', 'post_id': '1'}),
         }
         for template, reverse_name in templates_pages_names.items():
             with self.subTest(reverse_name = reverse_name):
