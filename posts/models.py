@@ -8,7 +8,7 @@ class Post(models.Model):
     text = models.TextField(
         verbose_name='Текст',
         help_text='Поделитесь своим любимым произведением'
-        )
+    )
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts')
@@ -17,7 +17,7 @@ class Post(models.Model):
         blank=True, null=True,
         related_name='posts', verbose_name='Группа',
         help_text='Укажите, какой группе принадлежит произведение'
-        )
+    )
 
     class Meta:
         ordering = ('-pub_date',)

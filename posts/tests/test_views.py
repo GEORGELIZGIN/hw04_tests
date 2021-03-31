@@ -7,6 +7,7 @@ from posts.models import Group, Post
 
 User = get_user_model()
 
+
 class PostsViewsTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -29,7 +30,7 @@ class PostsViewsTests(TestCase):
         cls.another_post = Post.objects.create(
             text='aa',
             author=cls.another_user,
-            group = cls.another_group
+            group=cls.another_group
         )
 
     def setUp(self):
@@ -41,7 +42,10 @@ class PostsViewsTests(TestCase):
             'index.html': reverse('posts:index'),
             'group.html': reverse('posts:group', kwargs={'slug': 'group'}),
             'posts/new_post.html': reverse('posts:new_post'),
-            'profile.html': reverse('posts:profile', kwargs={'username': 'Amalia'}),
+            'profile.html': reverse(
+                'posts:profile',
+                kwargs={'username': 'Amalia'}
+                ),
             'post.html': reverse('posts:post', kwargs={'username': 'Amalia', 'post_id': '1'}),
             'post_new.html': reverse('posts:post_edit', kwargs={'username': 'Amalia', 'post_id': '1'}),
         }
