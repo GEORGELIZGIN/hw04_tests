@@ -99,8 +99,7 @@ class PostsViewsTests(TestCase):
         response = self.authorized_client.get(
             reverse(
                 'posts:post_edit',
-                kwargs={'username': 'Amalia', 'post_id': '1'}
-                ))
+                kwargs={'username': 'Amalia', 'post_id': '1'}))
         form_fields = {
             'text': forms.CharField,
             'group': forms.ChoiceField
@@ -114,8 +113,7 @@ class PostsViewsTests(TestCase):
         response = self.authorized_client.get(
             reverse(
                 'posts:post',
-                kwargs={'username': 'Amalia', 'post_id': '1'}
-                ))
+                kwargs={'username': 'Amalia', 'post_id': '1'}))
         post = response.context['post']
         num_posts = response.context['num_posts']
         self.assertEqual(post.text, 'aaaa')
@@ -129,7 +127,7 @@ class PaginatorTestViews(TestCase):
         self.group = Group.objects.create(
             title='Группа',
             slug='group'
-        ) 
+        )
         self.user = User.objects.create_user(username='Amalia')
         for i in range(13):
             Post.objects.create(
@@ -146,4 +144,3 @@ class PaginatorTestViews(TestCase):
     def test_second_page_containse_three_records(self):
         response = self.client.get(reverse('posts:index') + '?page=2')
         self.assertEqual(len(response.context.get('page').object_list), 3)
-
