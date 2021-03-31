@@ -24,11 +24,11 @@ class PostsFormTests(TestCase):
             follow=True
         )
         self.assertRedirects(response, reverse('posts:index'))
-        self.assertEqual(Post.objects.count(), posts_count+1)
+        self.assertEqual(Post.objects.count(), posts_count + 1)
         self.assertTrue(
             Post.objects.filter(
-               text='gagagaga',
-               author=self.user
+                text='gagagaga',
+                author=self.user,
             ).exists()
         )
 
@@ -61,9 +61,7 @@ class PostsFormTests(TestCase):
             response,
             reverse(
                 'posts:profile',
-                kwargs={'username': 'Амалия'}
-                )
-            )
+                kwargs={'username': 'Амалия'}))
         self.assertEqual(Post.objects.count(), posts_count)
         self.assertTrue(
             Post.objects.filter(
@@ -79,4 +77,3 @@ class PostsFormTests(TestCase):
                 author=self.user,
             ).exists()
         )
-        
