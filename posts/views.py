@@ -18,7 +18,7 @@ def index(request):
     return render(
         request,
         'index.html',
-        {'page': page,}
+        {'page': page, }
     )
 
 
@@ -43,26 +43,26 @@ class NewPostView(LoginRequiredMixin, CreateView):
 
 
 def profile(request, username):
-        author = get_object_or_404(User, username=username)
-        paginator = Paginator(author.posts.all(), 10)
-        page_number = request.GET.get('page')
-        page = paginator.get_page(page_number)
-        context = {
-            'page': page,
-            'author': author
-            }
-        return render(request, 'profile.html', context)
+    author = get_object_or_404(User, username=username)
+    paginator = Paginator(author.posts.all(), 10)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    context = {
+        'page': page,
+        'author': author
+        }
+    return render(request, 'profile.html', context)
 
 
 def post_view(request, username, post_id):
-        author = get_object_or_404(User, username=username)
-        post = get_object_or_404(Post, pk=post_id, author=author)
-        num_posts = author.posts.count()
-        context = {
-            'post': post,
-            'num_posts': num_posts
-        }
-        return render(request, 'post.html', context)
+    author = get_object_or_404(User, username=username)
+    post = get_object_or_404(Post, pk=post_id, author=author)
+    num_posts = author.posts.count()
+    context = {
+        'post': post,
+        'num_posts': num_posts
+    }
+    return render(request, 'post.html', context)
 
 
 def post_edit(request, username, post_id):
