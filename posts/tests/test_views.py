@@ -77,8 +77,7 @@ class PostsViewsTests(TestCase):
 
     def test_group_page_shows_correct_context(self):
         response = self.authorized_client.get(
-            reverse('posts:group', kwargs={'slug': 'group'})
-            )
+            reverse('posts:group', kwargs={'slug': 'group'}))
         group = response.context['group']
         posts = response.context['page']
         self.assertEqual(group.title, PostsViewsTests.group.title)
@@ -101,8 +100,7 @@ class PostsViewsTests(TestCase):
             reverse(
                 'posts:post_edit',
                 kwargs={'username': 'Amalia', 'post_id': '1'}
-                )
-        )
+                ))
         form_fields = {
             'text': forms.CharField,
             'group': forms.ChoiceField
@@ -117,8 +115,7 @@ class PostsViewsTests(TestCase):
             reverse(
                 'posts:post',
                 kwargs={'username': 'Amalia', 'post_id': '1'}
-                )
-        )
+                ))
         post = response.context['post']
         num_posts = response.context['num_posts']
         self.assertEqual(post.text, 'aaaa')
@@ -130,8 +127,8 @@ class PostsViewsTests(TestCase):
 class PaginatorTestViews(TestCase):
     def setUp(self):
         self.group = Group.objects.create(
-            title = 'Группа',
-            slug = 'group'
+            title='Группа',
+            slug='group'
         ) 
         self.user = User.objects.create_user(username='Amalia')
         for i in range(13):
