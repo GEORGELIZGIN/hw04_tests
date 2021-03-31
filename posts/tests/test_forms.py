@@ -61,7 +61,7 @@ class PostsFormTests(TestCase):
             response,
             reverse(
                 'posts:profile',
-                kwargs={'username': 'Амалия'}))
+                kwargs={'username': 'Амалия', 'post_id': '1'}))
         self.assertEqual(Post.objects.count(), posts_count)
         self.assertTrue(
             Post.objects.filter(
