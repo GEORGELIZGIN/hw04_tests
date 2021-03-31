@@ -60,7 +60,7 @@ class PostsFormTests(TestCase):
         self.assertRedirects(
             response,
             reverse(
-                'posts:profile',
+                'posts:post',
                 kwargs={'username': 'Амалия', 'post_id': '1'}))
         self.assertEqual(Post.objects.count(), posts_count)
         self.assertTrue(
