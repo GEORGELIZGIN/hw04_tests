@@ -50,7 +50,7 @@ def profile(request, username):
     context = {
         'page': page,
         'author': author
-        }
+    }
     return render(request, 'profile.html', context)
 
 
@@ -70,9 +70,9 @@ def post_edit(request, username, post_id):
         return redirect(
             reverse_lazy(
                 'posts:profile',
-                kwargs = {'username': username}
-                )
+                kwargs={'username': username}
             )
+        )
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -85,9 +85,9 @@ def post_edit(request, username, post_id):
             return redirect(
                 reverse_lazy(
                     'posts:profile',
-                    kwargs = {'username': username}
-                    )
+                    kwargs={'username': username}
                 )
+            )
         return render(request, 'post_new.html', {'form': form})
     post = Post.objects.get(id=post_id)
     form = PostForm(initial={
