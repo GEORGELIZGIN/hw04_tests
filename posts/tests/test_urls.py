@@ -11,8 +11,8 @@ class PostURLTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.group = Group.objects.create(
-            title = 'Группа',
-            slug = 'group'
+            title='Группа',
+            slug='group'
         )
         cls.user = User.objects.create_user(username='Amalia')
         cls.user_not_author = User.objects.create_user(username='Bob')
@@ -28,8 +28,7 @@ class PostURLTests(TestCase):
         self.authorized_client.force_login(PostURLTests.user)
         self.authorized_not_author_client = Client()
         self.authorized_not_author_client.force_login(
-            PostURLTests.user_not_author
-            )
+            PostURLTests.user_not_author)
 
     def test_posts_urls_exist_at_desired_location(self):
         urls_does_not_require_auth = [
@@ -44,8 +43,8 @@ class PostURLTests(TestCase):
         ]
         for url in urls_does_not_require_auth:
             with self.subTest(url=url):
-                response = self.guest_client.get(url)  
-                self.assertEqual(response.status_code, 200) 
+                response = self.guest_client.get(url)
+                self.assertEqual(response.status_code, 200)
         for url in urls_require_auth:
             with self.subTest(url=url):
                 response = self.authorized_client.get(url)
@@ -64,8 +63,7 @@ class PostURLTests(TestCase):
     def test_posts_post_edit_url_redirects_not_author_user(self):
         response = self.authorized_not_author_client.get(
             '/Amalia/1/edit/',
-            follow=True
-            )
+            follow=True)
         self.assertRedirects(response, '/Amalia/')
 
     def test_urls_use_correct_templates(self):
