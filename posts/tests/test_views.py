@@ -114,11 +114,13 @@ class PostsViewsTests(TestCase):
             reverse(
                 'posts:post',
                 kwargs={'username': 'Amalia', 'post_id': '1'}))
+        author = response.context['author']
         post = response.context['post']
         num_posts = response.context['num_posts']
         self.assertEqual(post.text, 'aaaa')
         self.assertEqual(post.group, PostsViewsTests.group)
         self.assertEqual(post.author, PostsViewsTests.user)
+        self.assertEqual(author, PostsViewsTests.user)
         self.assertEqual(1, num_posts)
 
 

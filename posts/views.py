@@ -59,6 +59,7 @@ def post_view(request, username, post_id):
     post = get_object_or_404(Post, pk=post_id, author=author)
     num_posts = author.posts.count()
     context = {
+        'author': author,
         'post': post,
         'num_posts': num_posts
     }
