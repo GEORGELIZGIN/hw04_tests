@@ -53,7 +53,7 @@ class PostsViewsTests(TestCase):
                 kwargs={'username': 'Amalia', 'post_id': '1'}),
         }
         for template, reverse_name in templates_pages_names.items():
-            with self.subTest(reverse_name = reverse_name):
+            with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
 
@@ -76,7 +76,9 @@ class PostsViewsTests(TestCase):
                 self.assertIsInstance(form_field, expected)
 
     def test_group_page_shows_correct_context(self):
-        response = self.authorized_client.get(reverse('posts:group', kwargs={'slug': 'group'}))
+        response = self.authorized_client.get(
+            reverse('posts:group', kwargs={'slug': 'group'})
+            )
         group = response.context['group']
         posts = response.context['page']
         self.assertEqual(group.title, PostsViewsTests.group.title)
