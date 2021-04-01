@@ -19,7 +19,7 @@ class PostsFormTests(TestCase):
         form_data = {
             'text': 'gagagaga'
         }
-        guest_client_response = self.guest_client.post(
+        self.guest_client.post(
             reverse('posts:new_post'),
             data=form_data
         )
@@ -58,7 +58,7 @@ class PostsFormTests(TestCase):
         form_data = {
             'text': 'ga'
         }
-        guest_client_response = self.guest_client.post(
+        self.guest_client.post(
             reverse(
                 'posts:post_edit',
                 kwargs={

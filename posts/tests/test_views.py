@@ -36,11 +36,11 @@ class PostsViewsTests(TestCase):
     def setUp(self):
         self.authorized_client = Client()
         self.authorized_client.force_login(PostsViewsTests.user)
-    
+
     def check_post_context(self, post):
-        self.assertEqual(post.text, 'aaaa') 
-        self.assertEqual(post.group, PostsViewsTests.group) 
-        self.assertEqual(post.author, PostsViewsTests.user) 
+        self.assertEqual(post.text, 'aaaa')
+        self.assertEqual(post.group, PostsViewsTests.group)
+        self.assertEqual(post.author, PostsViewsTests.user)
 
     def test_pages_use_correct_template(self):
         templates_pages_names = {
@@ -143,5 +143,6 @@ class PaginatorTestViews(TestCase):
         self.assertEqual(len(response.context.get('page').object_list), 10)
 
     def test_second_page_containse_three_records(self):
-        response = self.client.get(reverse('posts:index', kwargs={'page': '2'}))
+        response = self.client.get(
+            reverse('posts:index',kwargs={'page': '2'}))
         self.assertEqual(len(response.context.get('page').object_list), 3)
