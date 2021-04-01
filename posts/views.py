@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth.decorators import login_required
 
 from .forms import PostForm
 from .models import Group, Post
@@ -47,7 +48,9 @@ def profile(request, username):
     paginator = Paginator(author.posts.all(), 10)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
+    num_posts = author.posts.count()
     context = {
+        'num_posts': num_posts,
         'page': page,
         'author': author
     }
@@ -56,7 +59,7 @@ def profile(request, username):
 
 def post_view(request, username, post_id):
     author = get_object_or_404(User, username=username)
-    post = get_object_or_404(Post, pk=post_id, author=author)
+    post = get_object_or_404(Post, pk=post_id, author__username=username)
     num_posts = author.posts.count()
     context = {
         'author': author,
@@ -66,36 +69,35 @@ def post_view(request, username, post_id):
     return render(request, 'post.html', context)
 
 
+@login_required
 def post_edit(request, username, post_id):
-    if request.user.username != username:
-        return redirect(
-            reverse_lazy(
-                'posts:profile',
-                kwargs={'username': username}
-            )
-        )
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            text = form.cleaned_data['text']
-            group = form.cleaned_data['group']
-            old_post = Post.objects.get(id=post_id)
-            old_post.text = text
-            old_post.group = group
-            old_post.save()
-            return redirect(
-                reverse_lazy(
-                    'posts:post',
-                    kwargs={'username': username, 'post_id': post_id}
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        author__username=username)
+    if request.user.username == username:
+        if request.method == 'POST':
+            form = PostForm(request.POST, instance=post)
+            if form.is_valid():
+                form.save()
+                return redirect(
+                    reverse_lazy(
+                        'posts:post',
+                        kwargs={'username': username, 'post_id': post_id}
+                    )
                 )
-            )
-        return render(request, 'post_new.html', {'form': form})
-    post = Post.objects.get(id=post_id)
-    form = PostForm(initial={
-        'text': post.text,
-        'group': post.group,
-    })
-    context = {
-        'form': form
-    }
-    return render(request, 'post_new.html', context)
+            return render(request, 'post_new.html', {'form': form})
+        form = PostForm(
+            initial={
+                'text': post.text,
+                'group': post.group},)
+        context = {
+            'form': form
+        }
+        return render(request, 'post_new.html', context)
+    return redirect(
+        reverse_lazy(
+            'posts:profile',
+            kwargs={'username': username}
+        )
+    )

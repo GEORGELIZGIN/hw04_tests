@@ -12,12 +12,24 @@ class PostsFormTests(TestCase):
         self.user = User.objects.create_user(username='Амалия')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
+        self.guest_client = Client()
 
     def test_create_post(self):
         posts_count = Post.objects.count()
         form_data = {
             'text': 'gagagaga'
         }
+        guest_client_response = self.guest_client.post(
+            reverse('posts:new_post'),
+            data=form_data
+        )
+        self.assertNotEqual(Post.objects.count(), posts_count + 1)
+        self.assertFalse(
+            Post.objects.filter(
+                text='gagagaga',
+                author=self.user,
+            ).exists()
+        )
         response = self.authorized_client.post(
             reverse('posts:new_post'),
             data=form_data,
@@ -46,6 +58,30 @@ class PostsFormTests(TestCase):
         form_data = {
             'text': 'ga'
         }
+        guest_client_response = self.guest_client.post(
+            reverse(
+                'posts:post_edit',
+                kwargs={
+                    'username': 'Амалия',
+                    'post_id': '1'
+                }
+            ),
+            data=form_data
+        )
+        self.assertFalse(
+            Post.objects.filter(
+                text='ga',
+                author=self.user,
+                group=None,
+            ).exists()
+        )
+        self.assertTrue(
+            Post.objects.filter(
+                text='g',
+                group=group,
+                author=self.user,
+            ).exists()
+        )
         response = self.authorized_client.post(
             reverse(
                 'posts:post_edit',

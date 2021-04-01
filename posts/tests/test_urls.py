@@ -31,21 +31,21 @@ class PostURLTests(TestCase):
             PostURLTests.user_not_author)
 
     def test_posts_urls_exist_at_desired_location(self):
-        urls_does_not_require_auth = [
+        public_urls = [
             '/',
             '/group/group/',
             '/Amalia/',
             '/Amalia/1/',
         ]
-        urls_require_auth = [
+        private_urls = [
             '/new/',
             '/Amalia/1/edit/',
         ]
-        for url in urls_does_not_require_auth:
+        for url in public_urls:
             with self.subTest(url=url):
                 response = self.guest_client.get(url)
                 self.assertEqual(response.status_code, 200)
-        for url in urls_require_auth:
+        for url in private_urls:
             with self.subTest(url=url):
                 response = self.authorized_client.get(url)
                 self.assertEqual(response.status_code, 200)
@@ -53,7 +53,7 @@ class PostURLTests(TestCase):
     def test_posts_new_url_post_edit_url_redirects_anonymous_user(self):
         urls_to_redirects = {
             '/new/': '/auth/login/?next=/new/',
-            '/Amalia/1/edit/': '/Amalia/',
+            '/Amalia/1/edit/': '/auth/login/?next=/Amalia/1/edit/',
         }
         for url, redirect in urls_to_redirects.items():
             with self.subTest(url=url):

@@ -9,9 +9,9 @@
       <div class="card-header">Войти на сайт</div>
       <div class="card-body">
         {% if form.errors %}
-        <div class="alert alert-danger" role="alert">
-          Имя пользователя и пароль не совпадают. Введите правильные данные.
-        </div>
+          <div class="alert alert-danger" role="alert">
+            Имя пользователя и пароль не совпадают. Введите правильные данные.
+          </div>
         {% endif %}
 
         {% if next %}            
@@ -51,9 +51,9 @@
               </a>
           </div>
         </form>
-      </div> <!-- card body -->
-    </div> <!-- card -->
-  </div> <!-- col -->
-</div> <!-- row -->
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

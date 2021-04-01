@@ -36,6 +36,11 @@ class PostsViewsTests(TestCase):
     def setUp(self):
         self.authorized_client = Client()
         self.authorized_client.force_login(PostsViewsTests.user)
+    
+    def check_post_context(self, post):
+        self.assertEqual(post.text, 'aaaa') 
+        self.assertEqual(post.group, PostsViewsTests.group) 
+        self.assertEqual(post.author, PostsViewsTests.user) 
 
     def test_pages_use_correct_template(self):
         templates_pages_names = {
@@ -59,10 +64,8 @@ class PostsViewsTests(TestCase):
 
     def test_home_page_shows_correct_context(self):
         response = self.authorized_client.get(reverse('posts:index'))
-        post_in_context = response.context['page'][0]
-        self.assertEqual(post_in_context.text, 'aa')
-        self.assertEqual(post_in_context.author, PostsViewsTests.another_user)
-        self.assertEqual(post_in_context.group, PostsViewsTests.another_group)
+        post_in_context = response.context['page'][1]
+        self.check_post_context(post_in_context)
 
     def test_new_page_shows_correct_context(self):
         response = self.authorized_client.get(reverse('posts:new_post'))
@@ -91,9 +94,7 @@ class PostsViewsTests(TestCase):
         page = response.context['page']
         post = page[0]
         self.assertNotIn(PostsViewsTests.another_user, page)
-        self.assertEqual(post.text, 'aaaa')
-        self.assertEqual(post.group, PostsViewsTests.group)
-        self.assertEqual(post.author, PostsViewsTests.user)
+        self.check_post_context(post)
 
     def test_post_edit_page_shows_correct_context(self):
         response = self.authorized_client.get(
@@ -117,9 +118,7 @@ class PostsViewsTests(TestCase):
         author = response.context['author']
         post = response.context['post']
         num_posts = response.context['num_posts']
-        self.assertEqual(post.text, 'aaaa')
-        self.assertEqual(post.group, PostsViewsTests.group)
-        self.assertEqual(post.author, PostsViewsTests.user)
+        self.check_post_context(post)
         self.assertEqual(author, PostsViewsTests.user)
         self.assertEqual(1, num_posts)
 
@@ -144,5 +143,5 @@ class PaginatorTestViews(TestCase):
         self.assertEqual(len(response.context.get('page').object_list), 10)
 
     def test_second_page_containse_three_records(self):
-        response = self.client.get(reverse('posts:index') + '?page=2')
+        response = self.client.get(reverse('posts:index', kwargs={'page': '2'}))
         self.assertEqual(len(response.context.get('page').object_list), 3)

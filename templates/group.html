@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Записи сообщества {{ group.title }}{% endblock %}
-{% block header %}<h1>{{ group.title }}</h1>{% endblock %}
+{% block header %} {{ group.title }} {% endblock %}
 {% block content %}
 <p> {{ group.description }} </p>
 
@@ -11,6 +11,6 @@
   <p>{{post.text|linebreaksbr}}</p>
 <hr>
   {% endfor %}
-  {% include "paginator.html" %}
+  {% include "include/paginator.html" %}
 
 {% endblock %}
