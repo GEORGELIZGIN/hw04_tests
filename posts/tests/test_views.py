@@ -38,7 +38,7 @@ class PostsViewsTests(TestCase):
         self.authorized_client.force_login(PostsViewsTests.user)
 
     def check_post_context(self, post):
-        self.assertEqual(post.text, 'aaaa')
+        self.assertEqual(post.text, PostsViewsTests.text)
         self.assertEqual(post.group, PostsViewsTests.group)
         self.assertEqual(post.author, PostsViewsTests.user)
 

@@ -76,21 +76,16 @@ def post_edit(request, username, post_id):
         id=post_id,
         author__username=username)
     if request.user.username == username:
-        if request.method == 'POST':
-            form = PostForm(request.POST, instance=post)
-            if form.is_valid():
-                form.save()
-                return redirect(
-                    reverse_lazy(
-                        'posts:post',
-                        kwargs={'username': username, 'post_id': post_id}
-                    )
+        form = PostForm(request.POST or None, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                reverse_lazy(
+                    'posts:post',
+                    kwargs={'username': username, 'post_id': post_id}
                 )
+            )
             return render(request, 'post_new.html', {'form': form})
-        form = PostForm(
-            initial={
-                'text': post.text,
-                'group': post.group},)
         context = {
             'form': form
         }
