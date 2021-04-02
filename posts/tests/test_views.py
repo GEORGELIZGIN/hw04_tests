@@ -21,6 +21,7 @@ class PostsViewsTests(TestCase):
             slug='s'
         )
         cls.user = User.objects.create_user(username='Amalia')
+        cls.text = 'aaaa'
         Post.objects.create(
             text='aaaa',
             author=cls.user,
